@@ -8,6 +8,7 @@
       <th>タイトル</th>
       <th>日付</th>
       <th>更新</th>
+      <th>削除</th>
     </tr>
   </thead>
   <tbody>
@@ -16,6 +17,7 @@
         <td>{{ day.title }}</td>
         <td>{{ day.date }}</td>
         <td><a href="{% url 'diary:update' day.pk %}">更新</a></td>
+        <td><a href="{% url 'diary:delete' day.pk %}">削除</a></td>
       </tr>
     {% endfor %}
   </tbody>
