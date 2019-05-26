@@ -1,63 +1,31 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
+from django.views import generic
 from .forms import DayCreateForm
 from .models import Day
 
 
-def index(request):
-    context = {
-        'day_list': Day.objects.all()
-    }
-    return render(request, 'diary/day_list.html', context)
+class IndexView(generic.ListView):
+    model = Day
 
 
-def add(request):
-    # 送信内容を基にフォーム作成. POST以外は空のフォームとする.
-    form = DayCreateForm(request.POST or None)
-
-    # methodがPOST且つバリデーションが通ればデータを保存
-    if request.method == "POST" and form.is_valid():
-        form.save()
-        return redirect('diary:index')
-
-    # methodがPOSTではない、またはバリデーションが通らない場合
-    context = {
-        'form': form
-    }
-    return render(request, 'diary/day_form.html', context)
+class AddView(generic.CreateView):
+    model = Day
+    # fiels = '__all__'  # model = Day の代わりにこの書き方も可能. つまり CreateViewを使う場合は, forms.pyが無くても大丈夫.
+    form_class = DayCreateForm
+    success_url = reverse_lazy('diary:index')  # /diary/
 
 
-def update(request, pk):
-    day = get_object_or_404(Day, pk=pk)
-
-    form = DayCreateForm(request.POST or None, instance=day)
-
-    if request.method == 'POST' and form.is_valid():
-        form.save()
-        return redirect('diary:index')
-
-    context = {
-        'form': form
-    }
-    return render(request, 'diary/day_form.html', context)
+class UpdateView(generic.UpdateView):
+    model = Day
+    form_class = DayCreateForm
+    success_url = reverse_lazy('diary:index')
 
 
-def delete(request, pk):
-    day = get_object_or_404(Day, pk=pk)
-
-    if request.method == 'POST':
-        day.delete()
-        return redirect('diary:index')
-
-    context = {
-        'day': day
-    }
-    return render(request, 'diary/day_confirm_delete.html', context)
+class DeleteView(generic.DeleteView):
+    model = Day
+    success_url = reverse_lazy('diary:index')
 
 
-def detail(request, pk):
-    day = get_object_or_404(Day, pk=pk)
-
-    context = {
-        'day': day
-    }
-    return render(request, 'diary/day_detail.html', context)
+class DetailView(generic.DetailView):
+    model = Day
