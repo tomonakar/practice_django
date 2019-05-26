@@ -4,5 +4,6 @@ from . import views
 app_name = 'diary'
 
 urlpatterns = [
-    path('', views.index, name='index'),  # /diary の時に呼ばれる
+    path('', views.index, name='index'),  # /diary
+    path('add/', views.add, name='add'),  # /diary/add
 ]
