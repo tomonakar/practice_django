@@ -14,6 +14,7 @@
       <th>名</th>
       <th>メール</th>
       <th>部署</th>
+      <th>部活</th>
     </tr>
   </thead>
   <tbody>
@@ -24,6 +25,7 @@
       <td>{{ employee.first_name }}</td>
       <td>{{ employee.email }}</td>
       <td>{{ employee.department }}</td>
+      <td>{% for club in employee.club.all %}{{ club  }}{% endfor %}</td>
     </tr>
     {% endfor %}
   </tbody>
