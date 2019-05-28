@@ -3,6 +3,8 @@ from django.utils import timezone
 
 
 class Category(models.Model):
+    """カテゴリ"""
+
     name = models.CharField('カテゴリ名', max_length=255)
     created_at = models.DateTimeField('作成日', default=timezone.now)
 
