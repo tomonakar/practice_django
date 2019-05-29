@@ -1,7 +1,8 @@
 from django.db.models import Q
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.views import generic
-from .models import Post, Category
+from .forms import CommentCreateForm
+from .models import Post, Category, Comment
 
 
 class IndexView(generic.ListView):
@@ -33,3 +34,20 @@ class CategoryView(generic.ListView):
 
 class DetailView(generic.DetailView):
     model = Post
+
+
+class CommentView(generic.CreateView):
+    model = Comment
+    #fields = ('name', 'text')
+    form_class = CommentCreateForm
+
+    # フォームのバリデーション用メソッドを上書き
+    def form_valid(self, form):
+        """
+        コメントと記事を紐付ける処理を追加
+        """
+        post_pk = self.kwargs['post_pk']
+        comment = form.save(commit=False)  # コメントはDBに保存されていない
+        comment.post = get_object_or_404(Post, pk=post_pk)
+        comment.save()  # ここでDBに保存
+        return redirect('blog:detail', pk=post_pk)
