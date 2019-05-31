@@ -32,7 +32,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'posts.apps.PostsConfig',
-    'rest_framework',
+    'rest_framework',               # DRF用に追加
+    'rest_framework.authtoken',     # トークン作成用に追加
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,6 +45,15 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
+    ],
+    # @see https://www.django-rest-framework.org/api-guide/authentication/#authentication
+    'DEFAULT_AUTHENTICATION_CLASSESS': [
+        # セッション管理用
+        'rest_framework.authentication.SessionAuthentication',
+        # Basic認証用 (今回は使わない)
+        # 'rest_framework.authentication.BasicAuthentication'
+        # Token認証用
+        'rest_framework.authentication.TokenAuthentication'
     ]
 }
 
