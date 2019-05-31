@@ -32,15 +32,26 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'posts.apps.PostsConfig',
+
     'rest_framework',               # DRF用に追加
     'rest_framework.authtoken',     # トークン作成用に追加
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'rest_auth',                    # ログイン・ログアウト・パスワード変更用に追加
+    'rest_auth.registration',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites'
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+SITE_ID = 1
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
