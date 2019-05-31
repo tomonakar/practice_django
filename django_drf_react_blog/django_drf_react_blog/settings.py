@@ -35,6 +35,7 @@ INSTALLED_APPS = [
 
     'rest_framework',               # DRF用に追加
     'rest_framework.authtoken',     # トークン作成用に追加
+    'rest_framework_swagger',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
